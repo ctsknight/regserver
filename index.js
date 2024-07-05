@@ -9,14 +9,36 @@ const httpsOptions = {
 } 
 const httpsServer = https.createServer(httpsOptions, app);
 const SSLPORT = 8443;
+const Json_DB_Path = "./db.json";
+const Data_Security_Key = "";
 
 httpsServer.listen(SSLPORT, function() {
 	    console.log('HTTPS Server is running on: https://test3.ubonex.de:%s', SSLPORT);
 });
 
 // Welcome
-app.get('/', function(req, res) {
+app.get('/checkreg', function(req, res) {
 	    if(req.protocol === 'https') {
-		            res.status(200).send('Welcome to Safety Land!');
+					const db_data = read_json_db(Json_DB_Path);
+					if(find_user_by_id(db_data, "123"))
+		            	res.status(200).send('valid');
+					res.status(200).send('not valid');
 		        }
 });
+
+function read_json_db(json_db_path){
+	fs.readFile(json_db_path, "utf8", (error, data) => {
+		if (error) {
+		  console.log(error);
+		  return;
+		}
+		db_data = JSON.parse(data);
+		console.log(db_data);
+		return db_data;
+	  });
+}
+
+function find_user_by_id(users, id){
+	const user = users.find((element) => (element.user_id == id))
+	return user;
+}

@@ -1,0 +1,16 @@
+{
+    "users":[
+        {
+            "user_id":"123",
+            "user_name":"",
+            "os":"",
+            "app_name":"",
+            "app_type": "",
+            "app_status": "",
+            "count_name": "",
+            "count": 0,
+            "update_time": 0,
+            "left_time": 0
+        }
+    ]
+}
