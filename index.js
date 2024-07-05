@@ -38,7 +38,7 @@ function read_json_db(json_db_path){
 	  });
 }
 
-function find_user_by_id(users, id){
-	const user = users.find((element) => (element.user_id == id))
+function find_user_by_id(data, id){
+	const user = data.users.find((element) => (element.user_id == id))
 	return user;
 }
