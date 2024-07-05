@@ -19,26 +19,19 @@ httpsServer.listen(SSLPORT, function() {
 // Welcome
 app.get('/checkreg', function(req, res) {
 	    if(req.protocol === 'https') {
-					const db_data = read_json_db(Json_DB_Path);
-					if(find_user_by_id(db_data, "123"))
-		            	res.status(200).send('valid');
-					res.status(200).send('not valid');
-		        }
+			fs.readFile(Json_DB_Path, "utf8", (error, data) => {
+				if (error) {
+				  console.log(error);
+				  res.status(500).send('error');
+				  return;
+				}
+				db_data = JSON.parse(data);
+				//console.log(db_data);
+				user = db_data.users.find((element) => (element.user_id == "123"));
+				console.log(user);
+				if(user) res.status(200).send('valid');
+				else res.status(200).send('not valid');
+			  });
+
+		    }
 });
-
-function read_json_db(json_db_path){
-	fs.readFile(json_db_path, "utf8", (error, data) => {
-		if (error) {
-		  console.log(error);
-		  return;
-		}
-		db_data = JSON.parse(data);
-		console.log(db_data);
-		return db_data;
-	  });
-}
-
-function find_user_by_id(data, id){
-	const user = data.users.find((element) => (element.user_id == id))
-	return user;
-}
